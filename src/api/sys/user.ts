@@ -1,14 +1,23 @@
 import { defHttp } from '/@/utils/http/axios';
-import { LoginParams, LoginResultModel, GetUserInfoModel } from './model/userModel';
+import {
+  LoginParams,
+  LoginResultModel,
+  GetUserInfoModel,
+  VerifyResultModel,
+} from './model/userModel';
 
 import { ErrorMessageMode } from '/#/axios';
 
 enum Api {
-  Login = '/login',
-  Logout = '/logout',
-  GetUserInfo = '/getUserInfo',
-  GetPermCode = '/getPermCode',
+  Verify = '/v1/api/admin/verify',
+  Login = '/v1/api/admin/login',
+  Logout = '/v1/api/admin/logout',
+  GetUserInfo = '/v1/api/admin/getUserInfo',
+  GetPermCode = '/v1/api/admin/getPermCode',
   TestRetry = '/testRetry',
+}
+export function verify() {
+  return defHttp.get<VerifyResultModel>({ url: Api.Verify });
 }
 
 /**

@@ -24,6 +24,29 @@
         :placeholder="t('sys.login.password')"
       />
     </FormItem>
+    <ARow class="enter-x">
+      <ACol :span="14">
+        <FormItem name="verify">
+          <Input
+            style="min-width: 100%"
+            size="large"
+            v-model:value="formData.verifyCode"
+            :placeholder="t('sys.login.verifyCode')"
+          />
+        </FormItem>
+      </ACol>
+      <ACol :span="8">
+        <FormItem>
+          <div
+            class="drag"
+            @click="getImgCode"
+            :style="{
+              backgroundImage: 'url(' + formData.verifyCodeImg + ')',
+            }"
+          ></div>
+        </FormItem>
+      </ACol>
+    </ARow>
 
     <ARow class="enter-x">
       <ACol :span="12">
@@ -119,8 +142,11 @@
   const rememberMe = ref(false);
 
   const formData = reactive({
-    account: 'vben',
+    account: 'bg',
     password: '123456',
+    verifyCode: '',
+    verifyUUID: '',
+    verifyCodeImg: '',
   });
 
   const { validForm } = useFormValid(formRef);
@@ -128,6 +154,15 @@
   //onKeyStroke('Enter', handleLogin);
 
   const getShow = computed(() => unref(getLoginState) === LoginStateEnum.LOGIN);
+
+  // 获取验证码
+  getImgCode();
+
+  async function getImgCode() {
+    const verifyData = await userStore.verify();
+    formData.verifyUUID = verifyData.verifyUUID;
+    formData.verifyCodeImg = verifyData.verifyCodeImg;
+  }
 
   async function handleLogin() {
     const data = await validForm();
@@ -137,6 +172,8 @@
       const userInfo = await userStore.login({
         password: data.password,
         username: data.account,
+        verifyCode: formData.verifyCode,
+        verifyUUID: formData.verifyUUID,
         mode: 'none', //不要默认的错误提示
       });
       if (userInfo) {
@@ -157,3 +194,14 @@
     }
   }
 </script>
+<style lang="less">
+  .drag {
+    position: relative;
+    width: 90%;
+    height: 40px;
+    float: right;
+    background-size: 100%;
+    line-height: 40px;
+    text-align: center;
+  }
+</style>

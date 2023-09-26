@@ -7,7 +7,7 @@ import { PageEnum } from '/@/enums/pageEnum';
 import { ROLES_KEY, TOKEN_KEY, USER_INFO_KEY } from '/@/enums/cacheEnum';
 import { getAuthCache, setAuthCache } from '/@/utils/auth';
 import { GetUserInfoModel, LoginParams } from '/@/api/sys/model/userModel';
-import { doLogout, getUserInfo, loginApi } from '/@/api/sys/user';
+import { doLogout, getUserInfo, loginApi, verify } from '/@/api/sys/user';
 import { useI18n } from '/@/hooks/web/useI18n';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { router } from '/@/router';
@@ -78,6 +78,17 @@ export const useUserStore = defineStore({
       this.token = '';
       this.roleList = [];
       this.sessionTimeout = false;
+    },
+    /**
+     * @description: verify
+     */
+    async verify() {
+      try {
+        const data = await verify();
+        return data;
+      } catch (error) {
+        return Promise.reject(error);
+      }
     },
     /**
      * @description: login

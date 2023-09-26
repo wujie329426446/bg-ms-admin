@@ -4,6 +4,13 @@
 export interface LoginParams {
   username: string;
   password: string;
+  verifyCode: string;
+  verifyUUID: string;
+}
+
+export interface VerifyResultModel {
+  verifyCodeImg: string;
+  verifyUUID: string;
 }
 
 export interface RoleInfo {
