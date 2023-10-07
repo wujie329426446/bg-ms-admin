@@ -25,7 +25,7 @@
       />
     </FormItem>
     <ARow class="enter-x">
-      <ACol :span="14">
+      <ACol :span="16">
         <FormItem name="verify">
           <Input
             style="min-width: 100%"
@@ -174,21 +174,21 @@
         username: data.account,
         verifyCode: formData.verifyCode,
         verifyUUID: formData.verifyUUID,
-        mode: 'none', //不要默认的错误提示
+        mode: 'bg-modal', //自定义错误提示
       });
       if (userInfo) {
         notification.success({
           message: t('sys.login.loginSuccessTitle'),
-          description: `${t('sys.login.loginSuccessDesc')}: ${userInfo.realName}`,
+          description: `${t('sys.login.loginSuccessDesc')}: ${userInfo.user.realname}`,
           duration: 3,
         });
       }
     } catch (error) {
-      createErrorModal({
-        title: t('sys.api.errorTip'),
-        content: (error as unknown as Error).message || t('sys.api.networkExceptionMsg'),
-        getContainer: () => document.body.querySelector(`.${prefixCls}`) || document.body,
-      });
+      // createErrorModal({
+      //   title: t('sys.api.errorTip'),
+      //   content: (error as unknown as Error).message || t('sys.api.networkExceptionMsg'),
+      //   getContainer: () => document.body.querySelector(`.${prefixCls}`) || document.body,
+      // });
     } finally {
       loading.value = false;
     }
@@ -197,10 +197,11 @@
 <style lang="less">
   .drag {
     position: relative;
-    width: 90%;
+    width: 100%;
     height: 40px;
     float: right;
-    background-size: 100%;
+    background-size: cover;
+    background-position: center;
     line-height: 40px;
     text-align: center;
   }

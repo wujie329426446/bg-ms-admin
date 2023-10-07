@@ -1,4 +1,4 @@
-export type ErrorMessageMode = 'none' | 'modal' | 'message' | undefined;
+export type ErrorMessageMode = 'none' | 'modal' | 'message' | 'bg-modal' | undefined;
 export type SuccessMessageMode = ErrorMessageMode;
 
 export interface RequestOptions {
